@@ -60,15 +60,15 @@ body { background: var(--deep); color: var(--foam); font-family: 'Inter', sans-s
   100%{transform:translateY(-110vh) translateX(30px) scale(.6);opacity:0}
 }
 
-/* ADMIN, MODALS, & FORMS (KEPT MOSTLY AS ORIGINAL FOR FUNCTIONALITY) */
+/* ADMIN, MODALS, & FORMS */
 .pwd-overlay { display: none; position: fixed; inset: 0; z-index: 3500; background: rgba(5,13,24,.96); backdrop-filter: blur(10px); align-items: center; justify-content: center; }
 .pwd-overlay.open { display: flex; }
 .pwd-box { background: var(--panel-bg); border: 1px solid rgba(223, 177, 99, 0.3); border-radius: 16px; padding: 40px 36px; width: 100%; max-width: 360px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
 .pwd-icon { font-size: 40px; margin-bottom: 16px; }
 .pwd-box h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--gold); margin-bottom: 6px; }
 .pwd-box p { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
-.pwd-input-wrap { position: relative; margin-bottom: 8px; }
-.pwd-input-wrap input { width: 100%; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); color: var(--foam); font-family: 'Inter', sans-serif; font-size: 16px; padding: 12px 44px 12px 16px; border-radius: 8px; outline: none; letter-spacing: 3px; transition: border-color .2s; text-align: center; }
+.pwd-input-wrap { position: relative; margin-bottom: 16px; }
+.pwd-input-wrap input { width: 100%; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); color: var(--foam); font-family: 'Inter', sans-serif; font-size: 15px; padding: 12px 44px 12px 16px; border-radius: 8px; outline: none; transition: border-color .2s; text-align: left; }
 .pwd-input-wrap input:focus { border-color: var(--gold); }
 .pwd-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; color: var(--muted); padding: 4px; }
 .pwd-error { font-size: 12px; color: var(--coral); min-height: 18px; margin-bottom: 16px; }
@@ -91,7 +91,9 @@ body { background: var(--deep); color: var(--foam); font-family: 'Inter', sans-s
 .admin-header h2 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--gold); }
 .admin-header p { font-size: 12px; color: var(--muted); margin-top: 4px; }
 .close-btn { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); color: var(--foam); border-radius: 8px; padding: 8px 16px; cursor: pointer; font-size: 13px; font-family: 'Inter', sans-serif; transition: all .2s; }
-.close-btn:hover { background: rgba(223,177,99,.15); color: var(--gold); border-color: var(--gold); }
+.close-btn:hover { background: rgba(224,122,95,.15); color: var(--coral); border-color: var(--coral); }
+.btn-logout { background: rgba(224,122,95,.1); border: 1px solid rgba(224,122,95,.3); color: var(--coral); border-radius: 8px; padding: 8px 16px; cursor: pointer; font-size: 13px; font-family: 'Inter', sans-serif; transition: all .2s; margin-right: 8px;}
+.btn-logout:hover { background: var(--coral); color: #fff; }
 
 .admin-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,.05); overflow-x: auto; background: rgba(0,0,0,0.2); }
 .tab-btn { background: none; border: none; color: var(--muted); font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 16px 24px; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all .2s; }
@@ -259,16 +261,22 @@ footer strong { color: var(--gold); font-weight: 600; font-family: 'Playfair Dis
 
 <div class="pwd-overlay" id="pwdModal">
   <div class="pwd-box">
-    <div class="pwd-icon">🗝️</div>
-    <h3>Cocina Interna</h3>
-    <p>Ingresa la llave maestra para editar la carta</p>
+    <div class="pwd-icon">👨‍🍳</div>
+    <h3>Acceso Chef</h3>
+    <p>Inicia sesión para editar la carta</p>
+    
+    <div class="pwd-input-wrap" style="margin-bottom: 16px;">
+      <input type="email" id="email-input" placeholder="Tu correo electrónico" style="text-align: left; letter-spacing: normal;">
+    </div>
+
     <div class="pwd-input-wrap">
-      <input type="password" id="pwd-input" placeholder="••••••••"
-        onkeydown="if(event.key==='Enter') checkPwd()">
+      <input type="password" id="pwd-input" placeholder="Tu contraseña"
+        onkeydown="if(event.key==='Enter') checkPwd()" style="text-align: left; letter-spacing: normal;">
       <button class="pwd-toggle" onclick="togglePwdVis()">👁</button>
     </div>
+    
     <div class="pwd-error" id="pwd-error"></div>
-    <button class="pwd-submit" onclick="checkPwd()">Abrir panel</button><br>
+    <button class="pwd-submit" onclick="checkPwd()">Iniciar sesión</button><br>
     <button class="pwd-cancel" onclick="closePwdModal()">Volver al menú</button>
   </div>
 </div>
@@ -280,7 +288,10 @@ footer strong { color: var(--gold); font-weight: 600; font-family: 'Playfair Dis
         <h2>Panel de Chef</h2>
         <p>☁️ Cambios sincronizados en vivo con Firebase</p>
       </div>
-      <button class="close-btn" onclick="closeAdmin()">✕ Cerrar</button>
+      <div>
+        <button class="btn-logout" onclick="logoutChef()">Cerrar Sesión</button>
+        <button class="close-btn" onclick="closeAdmin()">✕ Cerrar</button>
+      </div>
     </div>
     <div class="admin-tabs">
       <button class="tab-btn active" onclick="showTab('tab-info',this)">🏠 Info general</button>
@@ -417,21 +428,24 @@ footer strong { color: var(--gold); font-weight: 600; font-family: 'Playfair Dis
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 // ══════════════════════════════════
-//  FIREBASE CONFIG (Mantenemos la tuya)
+//  FIREBASE CONFIG 
 // ══════════════════════════════════
 const firebaseConfig = {
-  apiKey: "AIzaSyCcPzudtng2-Skzf4mM4bA2CkHLLFI_m0Y",
+  // PON AQUÍ TU NUEVA CLAVE API DE FIREBASE (La que generaste)
+  apiKey: "AIzaSyCcPzudtng2-Skzf4mM4bA2CkHLLFI_m0Y", 
   authDomain: "la-marea-menu.firebaseapp.com",
   projectId: "la-marea-menu"
 };
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
+const auth = getAuth(app);
 const MENU_REF = doc(db, "menu", "data");
 
 // ══════════════════════════════════
-//  DEFAULT DATA (Actualizada para Delicias del Mar)
+//  DEFAULT DATA (Delicias del Mar)
 // ══════════════════════════════════
 const DEFAULT = {
   info: {
@@ -476,8 +490,6 @@ const DEFAULT = {
 let state = JSON.parse(JSON.stringify(DEFAULT));
 let nextId = 20;
 let editImgData = "";
-let adminUnlocked = false;
-let lockTimer;
 const syncDot = document.getElementById('syncDot');
 
 // ══════════════════════════════════
@@ -490,7 +502,7 @@ async function initData() {
       state = snap.data();
       nextId = Math.max(...state.dishes.map(d=>d.id), 0) + 1;
     } else {
-      await setDoc(MENU_REF, DEFAULT);
+      if (auth.currentUser) await setDoc(MENU_REF, DEFAULT);
     }
     renderPublicMenu();
     document.getElementById('loadingScreen').classList.add('hidden');
@@ -512,11 +524,15 @@ async function initData() {
     syncDot.title = "Sin conexión";
     renderPublicMenu();
     document.getElementById('loadingScreen').classList.add('hidden');
-    showToast("Sin conexión a la nube — modo local", true);
+    showToast("Error de conexión a la nube", true);
   }
 }
 
 async function saveToCloud() {
+  if (!auth.currentUser) {
+    showToast("Debes iniciar sesión para guardar cambios", true);
+    return;
+  }
   syncDot.classList.add('syncing');
   try {
     await setDoc(MENU_REF, state);
@@ -524,9 +540,65 @@ async function saveToCloud() {
   } catch(e) {
     syncDot.classList.remove('syncing');
     syncDot.classList.add('error');
-    showToast("Error al guardar en la nube", true);
+    showToast("Error al guardar: Permisos insuficientes", true);
   }
 }
+
+// ══════════════════════════════════
+//  AUTENTICACIÓN SEGURA
+// ══════════════════════════════════
+onAuthStateChanged(auth, (user) => {
+  const adminBtn = document.querySelector('.admin-btn');
+  if (user) {
+    adminBtn.innerHTML = '⚙️ Panel Chef';
+  } else {
+    adminBtn.innerHTML = '🔒 Acceso Chef';
+    closeAdmin();
+  }
+});
+
+window.requestAdmin = function() {
+  if (auth.currentUser) { openAdmin(); return; }
+  document.getElementById('pwdModal').classList.add('open');
+  document.getElementById('email-input').value='';
+  document.getElementById('pwd-input').value='';
+  document.getElementById('pwd-error').textContent='';
+  setTimeout(()=>document.getElementById('email-input').focus(),100);
+};
+
+window.checkPwd = async function() {
+  const email = document.getElementById('email-input').value;
+  const pwd = document.getElementById('pwd-input').value;
+  if(!email || !pwd) {
+    document.getElementById('pwd-error').textContent = 'Ingresa correo y contraseña';
+    return;
+  }
+  
+  try {
+    await signInWithEmailAndPassword(auth, email, pwd);
+    document.getElementById('pwdModal').classList.remove('open');
+    openAdmin();
+  } catch (error) {
+    document.getElementById('pwd-error').textContent = 'Credenciales incorrectas';
+    const box = document.querySelector('.pwd-box');
+    box.style.animation='none'; box.offsetHeight; box.style.animation='shake .4s ease';
+  }
+};
+
+window.logoutChef = async function() {
+  try {
+    await signOut(auth);
+    showToast("Sesión cerrada correctamente");
+  } catch (error) {
+    showToast("Error al cerrar sesión", true);
+  }
+};
+
+window.closePwdModal = function() { document.getElementById('pwdModal').classList.remove('open'); };
+window.togglePwdVis = function() {
+  const i=document.getElementById('pwd-input');
+  i.type=i.type==='password'?'text':'password';
+};
 
 // ══════════════════════════════════
 //  RENDER PÚBLICO
@@ -582,47 +654,7 @@ function renderDishPublic(d) {
 }
 
 // ══════════════════════════════════
-//  PASSWORD
-// ══════════════════════════════════
-const ADMIN_PASSWORD = "lamareaadmin2024"; // ¡Ojo! Mantuve la clave original que te puso Claude para que no te confundas.
-
-window.requestAdmin = function() {
-  if (adminUnlocked) { openAdmin(); return; }
-  document.getElementById('pwdModal').classList.add('open');
-  document.getElementById('pwd-input').value='';
-  document.getElementById('pwd-error').textContent='';
-  setTimeout(()=>document.getElementById('pwd-input').focus(),100);
-};
-window.checkPwd = function() {
-  const val = document.getElementById('pwd-input').value;
-  if (val === ADMIN_PASSWORD) {
-    adminUnlocked = true;
-    document.getElementById('pwdModal').classList.remove('open');
-    document.querySelector('.admin-btn').innerHTML = '⚙️ Panel Chef';
-    openAdmin();
-    clearTimeout(lockTimer);
-    lockTimer = setTimeout(()=>{
-      adminUnlocked=false;
-      closeAdmin();
-      document.querySelector('.admin-btn').innerHTML='🔒 Acceso Chef';
-    }, 30*60*1000);
-  } else {
-    document.getElementById('pwd-error').textContent='Contraseña incorrecta';
-    document.getElementById('pwd-input').value='';
-    document.getElementById('pwd-input').focus();
-    const box = document.querySelector('.pwd-box');
-    box.style.animation='none'; box.offsetHeight;
-    box.style.animation='shake .4s ease';
-  }
-};
-window.closePwdModal = function() { document.getElementById('pwdModal').classList.remove('open'); };
-window.togglePwdVis = function() {
-  const i=document.getElementById('pwd-input');
-  i.type=i.type==='password'?'text':'password';
-};
-
-// ══════════════════════════════════
-//  ADMIN PANEL
+//  ADMIN PANEL Y FUNCIONES 
 // ══════════════════════════════════
 function openAdmin() {
   document.getElementById('adminModal').classList.add('open');
